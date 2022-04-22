@@ -1,0 +1,18 @@
+ffffab535e3a8aa0 T __arm64_sys_kill
+
+ffffab535f0d1780 R sys_call_table
+
+
+[  343.435848] debug: kallsyms_lookup_name_ 00000000984a83b2
+[  343.454111] debug: hook->name __arm64_sys_kill
+[  343.454114] debug: hook->addr 000000001becfed2
+[  343.454114] debug: hook state after set func + flag
+[  343.454115] debug: fh_hook.name __arm64_sys_kill
+[  343.454115] debug: fh_hook.new 00000000d81f20f7
+[  343.454115] debug: fh_hook.orig 00000000e35d7db0
+[  343.454116] debug: fh_hook.addr 000000001becfed2
+[  343.454116] debug: fh_hook.ops.func 000000001ca56a24
+[  343.454116] debug: fh_hook.ops.flags 00000000478fbf5c
+[  343.454116] debug: fh_hook.ops.private 0000000000000000
+[  343.454163] debug: ftrace_set_filter_ip failed
+[  343.454163] debug: fh_install_hook failed

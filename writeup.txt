@@ -1,0 +1,50 @@
+hooking linux systemcalls with ftrace (ARM)
+--------------------------------------------------
+before reading this writeup, please read:
+https://www.kernel.org/doc/html/v4.17/trace/ftrace-uses.html
+
+https://linux.kernel.narkive.com/5wB5Zg8K/patch-ftrace-core-0-2-ftrace-kprobes-introduce-ipmodify-flag-for-ftrace-ops-to-detect-conflicts
+
+i have a few questions about hooking system calls on linux, specifically on ARM
+
+after reading:
+https://www.kernel.org/doc/html/v4.17/trace/ftrace-uses.html
+and
+https://linux.kernel.narkive.com/5wB5Zg8K/patch-ftrace-core-0-2-ftrace-kprobes-introduce-ipmodify-flag-for-ftrace-ops-to-detect-conflicts
+
+i couldn't find any documentation on the ``FTRACE_OPS_FL_IPMODIFY`` flag but i assume it forces ``regs->pc`` point to the entry of the syscall
+and if u set ``regs->pc = my_function_addr``, once the callback exits, ``regs`` will be loaded then it will jump to my_function
+
+i am extremely confused about a certain stackoverflow post
+in this post: https://stackoverflow.com/questions/42966520/restoring-task-pt-regs-when-returning-to-original-function-from-ftrace-handler
+the author set ``regs->pc = new_addr`` and wants to use the pt_regs passed to the syscall but never pushes it to the stack ?
+if my_function looks like ``asmlinkage void my_function(const struct pt_regs *regs)``, how on earth does pt_regs end up on the stack ?
+
+
+http://bitboom.github.io/anatomy-of-kpatch
+
+get pointer to ftrace_hook from ops
+    struct ftrace_hook *hook = container_of(ops, struct ftrace_hook, ops);
+
+
+
+                    foo()                   ftrace
++------------+    +-------------+ hook +-----------------+
+| call foo() | => | call fentry | ===> | save regs       |
++------------+    +-------------+      +-----------------+
+| ...        |    | // ...      |      | call ftrace_ops | --
+|            |    +-------------+      +-----------------+  |
+|            |    | // ret      |      | restore regs    |  |
+|            |    +-------------+      +-----------------+  |
+|            |                         | ret regs->ip    |  |
+|            | <=   new foo()     <=== | * new foo()     |  |
+|            |    +-------------+      +-----------------+  |
++------------+    | ...         |                           |
+                  +-------------+      +-----------------+  |
+                  | ret         |      | get new ip      |<--
+                  +-------------+      | from hash table |
+                                       +-----------------+
+                                       | change regs->ip |
+                                       +-----------------+
+                                       | ret             |
+                                       +-----------------+

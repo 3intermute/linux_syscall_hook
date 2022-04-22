@@ -1,0 +1,8 @@
+implement function hooking in arm
+
+write your own kallsyms_lookup_name
+
+trust zone
+check if memory has been read by outside of THIS_MODULE
+
+if this shit does not work, fprobe syscall table and then use __NR_KILL
