@@ -1,0 +1,11 @@
+bypassing fg-kaslr:
+
+- __start___ksymtab location never changes: _text+0xf85198
+
+kallsyms_lookup_name() returns offset of symbol from relative base (_text)
+    - absolute addr: _text + offset
+
+1. use kprobe to get addr of kallsyms_lookup_name()
+2. kallsyms_lookup_name("__start___ksymtab") should be 0xf85198
+
+find _text

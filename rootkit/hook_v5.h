@@ -54,7 +54,7 @@ uintptr_t get_addr_of_symbol(const char *symbol_name) {
         return -ENOENT;
     }
 
-    uintptr_t tmp = *kp.addr;
+    uintptr_t tmp = kp.addr;
     pr_info("debug: get_addr_of_symbol before unreg %p\n", (void *) tmp);
     unregister_kprobe(&kp);
     pr_info("debug: get_addr_of_symbol after unreg %p\n", (void *) tmp);
@@ -98,7 +98,9 @@ int fh_install_hook(struct ftrace_hook *hook) {
         return -ENOENT;
     }
 
-    pr_info("debug: get_syscall_addr %p", get_syscall_addr(__NR_KILL));
+    pr_info("debug: get_syscall_addr %p\n", get_syscall_addr(__NR_kill));
+    pr_info("debug: kallsyms_lookup_name_ kallsyms_relative_base %p\n", kallsyms_lookup_name_("kallsyms_relative_base"));
+    pr_info("debug: _text %p\n", _text);
 
     int err;
     err = fh_get_func_addr(hook);

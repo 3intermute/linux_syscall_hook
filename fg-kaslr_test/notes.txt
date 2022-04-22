@@ -1,0 +1,96 @@
+bypassing fg-kaslr:
+
+kallsyms_lookup_name() returns offset of symbol from relative base (_text)
+    - absolute addr: _text + offset
+
+1. use kprobe to get addr of kallsyms_lookup_name()
+2. somehow get absolute addr of _text ?? try from from absolute addresses within module
+    - get function pointer to exported functions then subtract offset to _text
+
+find a symbol that is always exported, printk maybe ? or sort by address
+find its offset manually with _text and then using it to calculate text programmatically
+this will only work for my kernel version though
+so the dropper will need to find the offsets
+
+printk is exported
+
+script to check if exported
+```python
+import re
+
+
+def main():
+    kallsyms = None
+    with open("/proc/kallsyms", "r") as f:
+        kallsyms = f.readlines()
+
+    exp = re.compile("([0-9a-fA-F]+) ([tTdDsS]) ([ -~]+)[ ]?")
+    kallsyms = [exp.match(sym) for sym in kallsyms if exp.match(sym)]
+
+    kallsyms.sort(key=lambda sym: int(sym.group(1), 16))
+
+    _text_sym = next(sym for sym in kallsyms if sym.group(3) == "_text")
+    max_exported = int(_text_sym.group(1), 16) + 0xf85198
+    [print(sym.groups()) for sym in kallsyms if int(sym.group(1), 16) < max_exported]
+
+if __name__ == "__main__":
+    main()
+```
+
+
+find _text ??? kallsyms_lookup_name(_text) will return 0, test this
+
+
+[ 1330.362542] debug: kallsyms_lookup_name_ 00000000bcee62d2
+[ 1330.400752] debug: kallsyms_lookup_name __text 0000000000000000
+[ 1330.406412] debug: kallsyms_lookup_name __start___ksymtab 00000000eae3a6c0
+[ 1330.406413] debug: module loaded
+
+
+[   31.598281] debug: kallsyms_lookup_name_ 00000000e52abda3
+[   31.635373] debug: kallsyms_lookup_name _text 0000000000000000
+[   31.641400] debug: kallsyms_lookup_name __start___ksymtab 00000000d3833d2c
+[   31.641401] debug: module loaded
+
+reboot and see if offset remains the same
+
+
+[   31.518417] debug: kallsyms_lookup_name_ 000000008e7072ce
+[   31.546735] debug: kallsyms_lookup_name _text 00000000338b42a1
+[   31.552893] debug: kallsyms_lookup_name __start___ksymtab 00000000b462eebf
+[   31.552895] debug: module loaded
+
+
+
+- __start___ksymtab location never changes: _text+0xf85198 ??
+^ incorrect it does change
+
+
+
+
+
+
+
+[   57.039180] debug: get_kprobe_addr_of_symbol success, kallsyms_lookup_name @ 00000000588ed0f7
+[   57.039182] debug: kallsyms_lookup_name _text 000000005dd9530b
+[   57.039184] debug: kallsyms_lookup_name *_text 0000000075e5c5f9
+[   57.046195] debug: kallsyms_lookup_name __start___ksymtab 000000004f2cafcc
+[   57.046196] debug: get_kprobe_addr_of_symbol failed
+[   57.046197] debug: get_kprobe_addr_of_symbol _text fffffffffffffffe
+[   57.046197] debug: get_kprobe_addr_of_symbol failed
+[   57.046197] debug: get_kprobe_addr_of_symbol sys_call_table fffffffffffffffe
+[   57.046198] debug: module loaded
+
+
+ffffac8a76d14680 T module_kallsyms_lookup_name
+ffffac8a76d15090 T kallsyms_lookup_name
+ffffac8a77faa728 r __ksymtab_kallsyms_lookup_name
+ffffac8a77fc2b66 r __kstrtab_kallsyms_lookup_name
+ffffac8a37d30408 b kallsyms_lookup_name_	[fg_kaslr_test]
+ffffac8a37d2e080 t get_kallsyms_lookup_name	[fg_kaslr_test]
+
+
+base: 0xFFFFAC8A1E427F99
+
+text: 0xFFFFAC8A1E427F99 + 000000005dd9530b = 0xFFFFAC8A7C1BD2A4
+real text: ffffac8a76bc0000

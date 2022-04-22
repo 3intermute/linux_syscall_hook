@@ -25,16 +25,13 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used __section(__versions) = {
 	{ 0x581b1365, "module_layout" },
-	{ 0xe037666e, "unregister_ftrace_function" },
-	{ 0xe0c7e9c6, "register_ftrace_function" },
-	{ 0x59fe70a8, "ftrace_set_filter_ip" },
+	{ 0xc5850110, "printk" },
 	{ 0xeb3f8466, "unregister_kprobe" },
 	{ 0x3ce77caf, "register_kprobe" },
-	{ 0xc5850110, "printk" },
 	{ 0x1fdc7df2, "_mcount" },
 };
 
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "13E838BD557EEF8178205C8");
+MODULE_INFO(srcversion, "353098EB00353F1B2A38F66");

@@ -17,3 +17,24 @@ but trying to call kallsyms_lookup_name with "__NR_kill" returns null
 
 
 need to add KASLR offset, thank god fg isnt enabled
+https://tjtech.me/how-to-get-kaslr-offset-on-arm64.html
+
+https://marcograss.github.io/security/linux/2016/01/24/exploiting-infoleak-linux-kaslr-bypass.html
+
+need to get kernel entry point:
+https://lwn.net/Articles/672518/
+
+
+https://lwn.net/Articles/673598/
+
+
+https://code.woboq.org/linux/linux/kernel/kallsyms.c.html
+
+CONFIG_KALLSYMS_ABSOLUTE_PERCPU
+
+
+The fine-grainness of FG-KASLR is imperfect, there are certain regions in the kernel that never get randomized. Here are the unaffected regions that are useful to us:
+
+    The functions from _text base to __x86_retpoline_r15, which is _text+0x400dc6 are unaffected. Unfortunately, commit_creds() and prepare_kernel_cred() don’t reside in this region, but we can still look for useful registers and memory manipulation gadgets from here.
+    KPTI trampoline swapgs_restore_regs_and_return_to_usermode() is unaffected.
+    The kernel symbol table ksymtab, starts at _text+0xf85198 is unaffected. In here contains the offsets that can be used to calculate the addresses of commit_creds() and prepare_kernel_cred().
