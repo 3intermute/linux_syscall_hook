@@ -688,7 +688,7 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/have/mod/arch/specific.h) \
     $(wildcard include/config/modules/use/elf/rel.h) \
     $(wildcard include/config/modules/use/elf/rela.h) \
-  /mnt/dav/rootkit/hook_v4.h \
+  /mnt/dav/rootkit/hook_v5.h \
   include/linux/slab.h \
     $(wildcard include/config/debug/slab.h) \
     $(wildcard include/config/failslab.h) \

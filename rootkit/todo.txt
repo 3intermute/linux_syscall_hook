@@ -6,3 +6,14 @@ trust zone
 check if memory has been read by outside of THIS_MODULE
 
 if this shit does not work, fprobe syscall table and then use __NR_KILL
+
+
+not RE related but does anyone have the symbol names for ARM linux syscalls
+i know that x86 has the __x64_ prefix and im sure ARM has a prefix as well
+but i cant seem to find it documented anywhere
+im probably not looking hard enough
+i have found https://github.com/torvalds/linux/blob/master/arch/arm64/include/asm/unistd32.h
+but trying to call kallsyms_lookup_name with "__NR_kill" returns null
+
+
+need to add KASLR offset, thank god fg isnt enabled

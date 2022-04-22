@@ -3,6 +3,7 @@
 #include <linux/slab.h>
 #include <linux/uaccess.h>
 #include <linux/kprobes.h>
+#include <asm/unistd.h>
 
 struct ftrace_hook {
     const char *name;
@@ -46,6 +47,20 @@ int get_kallsyms_lookup_name(void) {
     return 0;
 }
 
+uintptr_t get_addr_of_symbol(const char *symbol_name) {
+    static struct kprobe kp;
+    kp.symbol_name = symbol_name;
+    if (register_kprobe(&kp) < 0) {
+        return -ENOENT;
+    }
+
+    uintptr_t tmp = *kp.addr;
+    pr_info("debug: get_addr_of_symbol before unreg %p\n", (void *) tmp);
+    unregister_kprobe(&kp);
+    pr_info("debug: get_addr_of_symbol after unreg %p\n", (void *) tmp);
+    return tmp;
+}
+
 static int fh_get_func_addr(struct ftrace_hook *hook) {
     if (!kallsyms_lookup_name_) {
         get_kallsyms_lookup_name();
@@ -61,6 +76,14 @@ static int fh_get_func_addr(struct ftrace_hook *hook) {
     return 0;
 }
 
+uintptr_t get_syscall_addr(int syscall_number) {
+    if (!kallsyms_lookup_name_) {
+        get_kallsyms_lookup_name();
+    }
+    uintptr_t sys_call_table_ptr = kallsyms_lookup_name_("sys_call_table");
+    return ((unsigned char *) sys_call_table_ptr)[syscall_number];
+}
+
 // might not match function prototype in ftrace.h
 static void fh_callback(uintptr_t ip, uintptr_t parent_ip, struct ftrace_ops *ops, struct pt_regs *regs) {
     struct ftrace_hook *hook = container_of(ops, struct ftrace_hook, ops);
@@ -74,6 +97,8 @@ int fh_install_hook(struct ftrace_hook *hook) {
     if (!hook) {
         return -ENOENT;
     }
+
+    pr_info("debug: get_syscall_addr %p", get_syscall_addr(__NR_KILL));
 
     int err;
     err = fh_get_func_addr(hook);
