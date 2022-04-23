@@ -12,9 +12,48 @@ find its offset manually with _text and then using it to calculate text programm
 this will only work for my kernel version though
 so the dropper will need to find the offsets
 
-printk is exported
+find where /proc/kallsyms calculates base
+find where /proc/vmallocinfo gets its info
 
-script to check if exported
+
+start_kernel: ffffa152c0530d18
+text: ffffa152bec20000
+difference: 0x1910D18
+
+reboot:
+start_kernel: ffffd2c3c11f0d18
+text: ffffd2c3bf8e0000
+difference: 0x1910D18
+
+
+
+// maybe it is emitting absolute addr ?
+
+https://patchwork.kernel.org/project/linux-modules/patch/20211102183851.168676-7-nick.alcock@oracle.com/
+
+https://github.com/torvalds/linux/blob/master/kernel/kallsyms.c proc kallsyms
+
+Since it is useful for some architectures (like x86) to retain the ability
+to emit absolute values as well, this patch adds support for both, by
+emitting absolute addresses as positive 32-bit values, and addresses
+relative to the lowest encountered relative symbol as negative values, which
+are subtracted from the runtime address of this base symbol to produce the
+actual address.
+
+ traverse page table and find pages mapped with _PAGE_GLOBAL
+https://github.com/lorenzo-stoakes/linux-vm-notes/blob/master/sections/page-tables.md
+
+printk is exported always and has constant offset
+printk does not have constant offset
+need to use either D or S
+
+root@coolbox4:/mnt/dav/fg-kaslr_test# cat /proc/kallsyms | grep " a "
+ffffd598827050d8 a $d	[x_tables]
+ffffd598827050d8 a xt_recseq	[x_tables]
+
+
+shitty little script to check if a symbol will have a constant offset with fg-aslr
+
 ```python
 import re
 
@@ -66,9 +105,39 @@ reboot and see if offset remains the same
 ^ incorrect it does change
 
 
+https://github.com/torvalds/linux/blob/df0cc57e/scripts/kallsyms.c#L96
+record relative base
+
+https://github.com/euspectre/kernel-strider/blob/master/sources/core/module_ms_alloc.c
+kernel strider
+
+/proc/iomem
 
 
 
+
+IMPORTANT:
+[  609.023138] debug: virt_to_phys virt (ffffc6e076e45090) -> phys (0000000115845090)
+[  609.023139] debug: phys_to_virt phys (00000001156f0000) -> virt (ffff0672156f0000)
+
+_text: ffffc6e076cf0000
+
+
+
+i was wondering if there was a simple way to get the absolute value of _text from within an LKM
+kallsyms_lookup_name("_text") returns an offset from _text
+id rather not call a helper from usermode to parse /proc/kallsyms or /proc/vmallocinfo
+
+https://code.woboq.org/linux/linux/kernel/kallsyms.c.html
+
+
+https://web.archive.org/web/20220423053914/https://www.nettime.org/Lists-Archives/nettime-l-9912/msg00161.html
+
+i was wondering if there was a simple way to get the absolute value of _text from within an LKM
+kallsyms_lookup_name("_text") returns an offset from _text
+id rather not call a helper from usermode to parse /proc/kallsyms or /proc/vmallocinfo
+i also dont really want to walk the pagetable just to find it
+looking at the source it seems /proc/kallsyms gets the base by parsing some kernel structure but i cant find its name its just passed as a file pointer
 
 
 [   57.039180] debug: get_kprobe_addr_of_symbol success, kallsyms_lookup_name @ 00000000588ed0f7

@@ -38,3 +38,18 @@ The fine-grainness of FG-KASLR is imperfect, there are certain regions in the ke
     The functions from _text base to __x86_retpoline_r15, which is _text+0x400dc6 are unaffected. Unfortunately, commit_creds() and prepare_kernel_cred() don’t reside in this region, but we can still look for useful registers and memory manipulation gadgets from here.
     KPTI trampoline swapgs_restore_regs_and_return_to_usermode() is unaffected.
     The kernel symbol table ksymtab, starts at _text+0xf85198 is unaffected. In here contains the offsets that can be used to calculate the addresses of commit_creds() and prepare_kernel_cred().
+
+
+youre a fuckin g moron parse page table to find kernel base
+
+
+https://www.kernel.org/doc/html/latest/arm/memory.html
+
+0xffff800010000000
+ffffd59880c10000
+
+root@coolbox4:/mnt/dav/fg-kaslr_test# cat /proc/vmallocinfo | grep ffffd59880c10000
+0xffffd59880c10000-0xffffd598819d0000 14417920 paging_init+0x100/0x558 phys=0x00000000bb610000 vmap
+https://blog.spacepatroldelta.com/a?ID=00950-f76c0ee6-fdbd-4223-aef5-144f395e8e23 IMPORTANT
+
+vma struct vm_area_struct

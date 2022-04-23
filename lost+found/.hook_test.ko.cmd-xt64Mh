@@ -1,0 +1,1 @@
+cmd_/mnt/dav/rootkit/hook_test.ko := ld -r  -EL  -maarch64elf  --build-id  -T ./scripts/module-common.lds -T ./arch/arm64/kernel/module.lds -o /mnt/dav/rootkit/hook_test.ko /mnt/dav/rootkit/hook_test.o /mnt/dav/rootkit/hook_test.mod.o;  true
