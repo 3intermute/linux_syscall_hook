@@ -1,1 +1,0 @@
-cmd_/mnt/dav/ftrace_test/ftrace_test.ko := ld -r  -EL  -maarch64elf  --build-id  -T ./scripts/module-common.lds -T ./arch/arm64/kernel/module.lds -o /mnt/dav/ftrace_test/ftrace_test.ko /mnt/dav/ftrace_test/ftrace_test.o /mnt/dav/ftrace_test/ftrace_test.mod.o;  true
