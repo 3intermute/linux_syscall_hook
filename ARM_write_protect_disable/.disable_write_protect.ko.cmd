@@ -1,0 +1,1 @@
+cmd_/mnt/dav/ARM_write_protect_disable/disable_write_protect.ko := ld -r  -EL  -maarch64elf  --build-id  -T ./scripts/module-common.lds -T ./arch/arm64/kernel/module.lds -o /mnt/dav/ARM_write_protect_disable/disable_write_protect.ko /mnt/dav/ARM_write_protect_disable/disable_write_protect.o /mnt/dav/ARM_write_protect_disable/disable_write_protect.mod.o;  true
