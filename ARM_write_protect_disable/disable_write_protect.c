@@ -1,6 +1,7 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
+#include "resolve_kallsyms.h"
 #include "set_page_flags.h"
 
 MODULE_LICENSE("GPL");

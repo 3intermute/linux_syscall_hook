@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/18220980/playing-with-syscall-table-from-lkm
