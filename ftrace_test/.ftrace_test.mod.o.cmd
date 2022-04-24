@@ -1,8 +1,10 @@
-cmd_/mnt/dav/rootkit/hook_test.o := gcc -Wp,-MD,/mnt/dav/rootkit/.hook_test.o.d  -nostdinc -isystem /usr/lib/gcc/aarch64-linux-gnu/9/include  -I./arch/arm64/include -I./arch/arm64/include/generated  -I./include -I./arch/arm64/include/uapi -I./arch/arm64/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -include ./include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DKASAN_SHADOW_SCALE_SHIFT=3 -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Wno-format-security -std=gnu89 -mgeneral-regs-only -DCONFIG_AS_LSE=1 -DCONFIG_CC_HAS_K_CONSTRAINT=1 -fno-asynchronous-unwind-tables -Wno-psabi -mabi=lp64 -mbranch-protection=none -DKASAN_SHADOW_SCALE_SHIFT=3 -fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-overflow -Wno-address-of-packed-member -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector-strong -Wimplicit-fallthrough -Wno-unused-but-set-variable -Wno-unused-const-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -Wdeclaration-after-statement -Wvla -Wno-pointer-sign -Wno-stringop-truncation -Wno-array-bounds -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitialized -fno-strict-overflow -fno-merge-all-constants -fmerge-constants -fno-stack-check -fconserve-stack -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -fmacro-prefix-map=./= -Wno-packed-not-aligned -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=1320  -DMODULE  -DKBUILD_BASENAME='"hook_test"' -DKBUILD_MODNAME='"hook_test"' -c -o /mnt/dav/rootkit/hook_test.o /mnt/dav/rootkit/hook_test.c
+cmd_/mnt/dav/ftrace_test/ftrace_test.mod.o := gcc -Wp,-MD,/mnt/dav/ftrace_test/.ftrace_test.mod.o.d  -nostdinc -isystem /usr/lib/gcc/aarch64-linux-gnu/9/include  -I./arch/arm64/include -I./arch/arm64/include/generated  -I./include -I./arch/arm64/include/uapi -I./arch/arm64/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -include ./include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DKASAN_SHADOW_SCALE_SHIFT=3 -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Wno-format-security -std=gnu89 -mgeneral-regs-only -DCONFIG_AS_LSE=1 -DCONFIG_CC_HAS_K_CONSTRAINT=1 -fno-asynchronous-unwind-tables -Wno-psabi -mabi=lp64 -mbranch-protection=none -DKASAN_SHADOW_SCALE_SHIFT=3 -fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-overflow -Wno-address-of-packed-member -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector-strong -Wimplicit-fallthrough -Wno-unused-but-set-variable -Wno-unused-const-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -Wdeclaration-after-statement -Wvla -Wno-pointer-sign -Wno-stringop-truncation -Wno-array-bounds -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitialized -fno-strict-overflow -fno-merge-all-constants -fmerge-constants -fno-stack-check -fconserve-stack -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -fmacro-prefix-map=./= -Wno-packed-not-aligned -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=1320  -DMODULE  -DKBUILD_BASENAME='"ftrace_test.mod"' -DKBUILD_MODNAME='"ftrace_test"' -c -o /mnt/dav/ftrace_test/ftrace_test.mod.o /mnt/dav/ftrace_test/ftrace_test.mod.c
 
-source_/mnt/dav/rootkit/hook_test.o := /mnt/dav/rootkit/hook_test.c
+source_/mnt/dav/ftrace_test/ftrace_test.mod.o := /mnt/dav/ftrace_test/ftrace_test.mod.c
 
-deps_/mnt/dav/rootkit/hook_test.o := \
+deps_/mnt/dav/ftrace_test/ftrace_test.mod.o := \
+    $(wildcard include/config/module/unload.h) \
+    $(wildcard include/config/retpoline.h) \
   include/linux/kconfig.h \
     $(wildcard include/config/cpu/big/endian.h) \
     $(wildcard include/config/booger.h) \
@@ -15,12 +17,43 @@ deps_/mnt/dav/rootkit/hook_test.o := \
   include/linux/compiler_attributes.h \
   include/linux/compiler-gcc.h \
     $(wildcard include/config/arm64.h) \
-    $(wildcard include/config/retpoline.h) \
     $(wildcard include/config/arch/use/builtin/bswap.h) \
-  include/linux/init.h \
-    $(wildcard include/config/have/arch/prel32/relocations.h) \
-    $(wildcard include/config/strict/kernel/rwx.h) \
-    $(wildcard include/config/strict/module/rwx.h) \
+  include/linux/build-salt.h \
+    $(wildcard include/config/build/salt.h) \
+  include/linux/elfnote.h \
+  include/linux/elf.h \
+  arch/arm64/include/asm/elf.h \
+    $(wildcard include/config/arm64/force/52bit.h) \
+    $(wildcard include/config/compat.h) \
+    $(wildcard include/config/compat/vdso.h) \
+  arch/arm64/include/asm/hwcap.h \
+  arch/arm64/include/uapi/asm/hwcap.h \
+  arch/arm64/include/asm/cpufeature.h \
+    $(wildcard include/config/arm64/sw/ttbr0/pan.h) \
+    $(wildcard include/config/arm64/sve.h) \
+    $(wildcard include/config/arm64/cnp.h) \
+    $(wildcard include/config/arm64/ptr/auth.h) \
+    $(wildcard include/config/arm64/pseudo/nmi.h) \
+    $(wildcard include/config/arm64/debug/priority/masking.h) \
+    $(wildcard include/config/arm64/ssbd.h) \
+    $(wildcard include/config/arm64/pa/bits.h) \
+  arch/arm64/include/asm/cpucaps.h \
+  arch/arm64/include/asm/cputype.h \
+  arch/arm64/include/asm/sysreg.h \
+    $(wildcard include/config/broken/gas/inst.h) \
+    $(wildcard include/config/arm64/pa/bits/52.h) \
+    $(wildcard include/config/arm64/4k/pages.h) \
+    $(wildcard include/config/arm64/16k/pages.h) \
+    $(wildcard include/config/arm64/64k/pages.h) \
+  include/linux/bits.h \
+  include/linux/const.h \
+  include/uapi/linux/const.h \
+  arch/arm64/include/uapi/asm/bitsperlong.h \
+  include/asm-generic/bitsperlong.h \
+    $(wildcard include/config/64bit.h) \
+  include/uapi/asm-generic/bitsperlong.h \
+  include/linux/stringify.h \
+  include/linux/build_bug.h \
   include/linux/compiler.h \
     $(wildcard include/config/trace/branch/profiling.h) \
     $(wildcard include/config/profile/all/branches.h) \
@@ -33,10 +66,6 @@ deps_/mnt/dav/rootkit/hook_test.o := \
   include/uapi/asm-generic/types.h \
   include/asm-generic/int-ll64.h \
   include/uapi/asm-generic/int-ll64.h \
-  arch/arm64/include/uapi/asm/bitsperlong.h \
-  include/asm-generic/bitsperlong.h \
-    $(wildcard include/config/64bit.h) \
-  include/uapi/asm-generic/bitsperlong.h \
   include/uapi/linux/posix_types.h \
   include/linux/stddef.h \
   include/uapi/linux/stddef.h \
@@ -51,32 +80,16 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/phys/addr/t/64bit.h) \
   include/asm-generic/barrier.h \
     $(wildcard include/config/smp.h) \
-  include/linux/module.h \
-    $(wildcard include/config/modules.h) \
-    $(wildcard include/config/sysfs.h) \
-    $(wildcard include/config/modules/tree/lookup.h) \
-    $(wildcard include/config/livepatch.h) \
-    $(wildcard include/config/unused/symbols.h) \
-    $(wildcard include/config/module/sig.h) \
+  include/linux/bug.h \
     $(wildcard include/config/generic/bug.h) \
-    $(wildcard include/config/kallsyms.h) \
-    $(wildcard include/config/tracepoints.h) \
-    $(wildcard include/config/tree/srcu.h) \
-    $(wildcard include/config/bpf/events.h) \
-    $(wildcard include/config/jump/label.h) \
-    $(wildcard include/config/tracing.h) \
-    $(wildcard include/config/event/tracing.h) \
-    $(wildcard include/config/ftrace/mcount/record.h) \
-    $(wildcard include/config/module/unload.h) \
-    $(wildcard include/config/constructors.h) \
-    $(wildcard include/config/function/error/injection.h) \
-  include/linux/list.h \
-    $(wildcard include/config/debug/list.h) \
-  include/linux/poison.h \
-    $(wildcard include/config/illegal/pointer/value.h) \
-    $(wildcard include/config/page/poisoning/zero.h) \
-  include/linux/const.h \
-  include/uapi/linux/const.h \
+    $(wildcard include/config/bug/on/data/corruption.h) \
+  arch/arm64/include/asm/bug.h \
+  arch/arm64/include/asm/asm-bug.h \
+    $(wildcard include/config/debug/bugverbose.h) \
+  arch/arm64/include/asm/brk-imm.h \
+  include/asm-generic/bug.h \
+    $(wildcard include/config/bug.h) \
+    $(wildcard include/config/generic/bug/relative/pointers.h) \
   include/linux/kernel.h \
     $(wildcard include/config/preempt/voluntary.h) \
     $(wildcard include/config/debug/atomic/sleep.h) \
@@ -84,18 +97,21 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/prove/locking.h) \
     $(wildcard include/config/arch/has/refcount.h) \
     $(wildcard include/config/panic/timeout.h) \
+    $(wildcard include/config/tracing.h) \
+    $(wildcard include/config/ftrace/mcount/record.h) \
   /usr/lib/gcc/aarch64-linux-gnu/9/include/stdarg.h \
   include/linux/limits.h \
   include/uapi/linux/limits.h \
   include/linux/linkage.h \
-  include/linux/stringify.h \
   include/linux/export.h \
     $(wildcard include/config/modversions.h) \
     $(wildcard include/config/module/rel/crcs.h) \
+    $(wildcard include/config/have/arch/prel32/relocations.h) \
+    $(wildcard include/config/modules.h) \
     $(wildcard include/config/trim/unused/ksyms.h) \
+    $(wildcard include/config/unused/symbols.h) \
   arch/arm64/include/asm/linkage.h \
   include/linux/bitops.h \
-  include/linux/bits.h \
   arch/arm64/include/asm/bitops.h \
   include/asm-generic/bitops/builtin-__ffs.h \
   include/asm-generic/bitops/builtin-ffs.h \
@@ -113,19 +129,21 @@ deps_/mnt/dav/rootkit/hook_test.o := \
   include/linux/atomic.h \
   arch/arm64/include/asm/atomic.h \
   arch/arm64/include/asm/cmpxchg.h \
-  include/linux/build_bug.h \
   arch/arm64/include/asm/lse.h \
     $(wildcard include/config/as/lse.h) \
     $(wildcard include/config/arm64/lse/atomics.h) \
   arch/arm64/include/asm/atomic_ll_sc.h \
     $(wildcard include/config/cc/has/k/constraint.h) \
   include/linux/jump_label.h \
+    $(wildcard include/config/jump/label.h) \
     $(wildcard include/config/have/arch/jump/label/relative.h) \
   arch/arm64/include/asm/jump_label.h \
   arch/arm64/include/asm/insn.h \
   arch/arm64/include/asm/alternative.h \
     $(wildcard include/config/arm64/uao.h) \
-  arch/arm64/include/asm/cpucaps.h \
+  include/linux/init.h \
+    $(wildcard include/config/strict/kernel/rwx.h) \
+    $(wildcard include/config/strict/module/rwx.h) \
   arch/arm64/include/asm/atomic_lse.h \
   include/asm-generic/atomic-instrumented.h \
   include/linux/atomic-fallback.h \
@@ -163,65 +181,34 @@ deps_/mnt/dav/rootkit/hook_test.o := \
   include/uapi/linux/sysinfo.h \
   arch/arm64/include/asm/cache.h \
     $(wildcard include/config/kasan/sw/tags.h) \
-  arch/arm64/include/asm/cputype.h \
-  arch/arm64/include/asm/sysreg.h \
-    $(wildcard include/config/broken/gas/inst.h) \
-    $(wildcard include/config/arm64/pa/bits/52.h) \
-    $(wildcard include/config/arm64/4k/pages.h) \
-    $(wildcard include/config/arm64/16k/pages.h) \
-    $(wildcard include/config/arm64/64k/pages.h) \
   include/linux/dynamic_debug.h \
   arch/arm64/include/generated/asm/div64.h \
   include/asm-generic/div64.h \
-  include/linux/stat.h \
-  arch/arm64/include/asm/stat.h \
-    $(wildcard include/config/compat.h) \
-  arch/arm64/include/generated/uapi/asm/stat.h \
-  include/uapi/asm-generic/stat.h \
-  include/linux/time.h \
-    $(wildcard include/config/arch/uses/gettimeoffset.h) \
-  include/linux/seqlock.h \
-    $(wildcard include/config/debug/lock/alloc.h) \
-  include/linux/spinlock.h \
-    $(wildcard include/config/debug/spinlock.h) \
-    $(wildcard include/config/preemption.h) \
-  include/linux/preempt.h \
-    $(wildcard include/config/preempt/count.h) \
-    $(wildcard include/config/debug/preempt.h) \
-    $(wildcard include/config/trace/preempt/toggle.h) \
-    $(wildcard include/config/preempt/notifiers.h) \
-  arch/arm64/include/asm/preempt.h \
-    $(wildcard include/config/preempt.h) \
-  include/linux/thread_info.h \
-    $(wildcard include/config/thread/info/in/task.h) \
-    $(wildcard include/config/have/arch/within/stack/frames.h) \
-    $(wildcard include/config/hardened/usercopy.h) \
-  include/linux/bug.h \
-    $(wildcard include/config/bug/on/data/corruption.h) \
-  arch/arm64/include/asm/bug.h \
-  arch/arm64/include/asm/asm-bug.h \
-    $(wildcard include/config/debug/bugverbose.h) \
-  arch/arm64/include/asm/brk-imm.h \
-  include/asm-generic/bug.h \
-    $(wildcard include/config/bug.h) \
-    $(wildcard include/config/generic/bug/relative/pointers.h) \
-  include/linux/restart_block.h \
-  include/linux/time64.h \
-  include/linux/math64.h \
-    $(wildcard include/config/arch/supports/int128.h) \
-  include/uapi/linux/time.h \
-  include/uapi/linux/time_types.h \
-  include/linux/errno.h \
-  include/uapi/linux/errno.h \
-  arch/arm64/include/generated/uapi/asm/errno.h \
-  include/uapi/asm-generic/errno.h \
-  include/uapi/asm-generic/errno-base.h \
-  arch/arm64/include/asm/current.h \
-  arch/arm64/include/asm/thread_info.h \
-    $(wildcard include/config/arm64/sw/ttbr0/pan.h) \
+  arch/arm64/include/asm/ptrace.h \
+  arch/arm64/include/uapi/asm/ptrace.h \
+  arch/arm64/include/uapi/asm/sve_context.h \
+  arch/arm64/include/generated/asm/user.h \
+  include/asm-generic/user.h \
+  arch/arm64/include/asm/processor.h \
+    $(wildcard include/config/kuser/helpers.h) \
+    $(wildcard include/config/have/hw/breakpoint.h) \
+    $(wildcard include/config/arm64/tagged/addr/abi.h) \
+    $(wildcard include/config/gcc/plugin/stackleak.h) \
+  include/linux/string.h \
+    $(wildcard include/config/binary/printf.h) \
+    $(wildcard include/config/fortify/source.h) \
+  include/uapi/linux/string.h \
+  arch/arm64/include/asm/string.h \
+    $(wildcard include/config/arch/has/uaccess/flushcache.h) \
+  arch/arm64/include/asm/hw_breakpoint.h \
+  arch/arm64/include/asm/virt.h \
+  arch/arm64/include/asm/sections.h \
+  include/asm-generic/sections.h \
+  arch/arm64/include/asm/pgtable-hwdef.h \
+    $(wildcard include/config/pgtable/levels.h) \
+    $(wildcard include/config/arm64/va/bits/52.h) \
   arch/arm64/include/asm/memory.h \
     $(wildcard include/config/arm64/va/bits.h) \
-    $(wildcard include/config/arm64/va/bits/52.h) \
     $(wildcard include/config/kasan/shadow/offset.h) \
     $(wildcard include/config/vmap/stack.h) \
     $(wildcard include/config/debug/align/rodata.h) \
@@ -241,64 +228,14 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/discontigmem.h) \
     $(wildcard include/config/sparsemem.h) \
   include/linux/pfn.h \
-  arch/arm64/include/asm/stack_pointer.h \
-  include/linux/irqflags.h \
-    $(wildcard include/config/trace/irqflags.h) \
-    $(wildcard include/config/irqsoff/tracer.h) \
-    $(wildcard include/config/preempt/tracer.h) \
-    $(wildcard include/config/trace/irqflags/support.h) \
-  arch/arm64/include/asm/irqflags.h \
-  arch/arm64/include/asm/ptrace.h \
-  arch/arm64/include/asm/cpufeature.h \
-    $(wildcard include/config/arm64/sve.h) \
-    $(wildcard include/config/arm64/cnp.h) \
-    $(wildcard include/config/arm64/ptr/auth.h) \
-    $(wildcard include/config/arm64/pseudo/nmi.h) \
-    $(wildcard include/config/arm64/debug/priority/masking.h) \
-    $(wildcard include/config/arm64/ssbd.h) \
-    $(wildcard include/config/arm64/pa/bits.h) \
-  arch/arm64/include/asm/hwcap.h \
-  arch/arm64/include/uapi/asm/hwcap.h \
-  arch/arm64/include/uapi/asm/ptrace.h \
-  arch/arm64/include/uapi/asm/sve_context.h \
-  include/linux/bottom_half.h \
-  arch/arm64/include/generated/asm/mmiowb.h \
-  include/asm-generic/mmiowb.h \
-    $(wildcard include/config/mmiowb.h) \
-  include/linux/spinlock_types.h \
-  arch/arm64/include/asm/spinlock_types.h \
-  include/asm-generic/qspinlock_types.h \
-    $(wildcard include/config/paravirt.h) \
-    $(wildcard include/config/nr/cpus.h) \
-  include/asm-generic/qrwlock_types.h \
-  include/linux/lockdep.h \
-    $(wildcard include/config/lockdep.h) \
-    $(wildcard include/config/lock/stat.h) \
-  include/linux/rwlock_types.h \
-  arch/arm64/include/asm/spinlock.h \
-  arch/arm64/include/generated/asm/qrwlock.h \
-  include/asm-generic/qrwlock.h \
-  arch/arm64/include/asm/processor.h \
-    $(wildcard include/config/kuser/helpers.h) \
-    $(wildcard include/config/arm64/force/52bit.h) \
-    $(wildcard include/config/have/hw/breakpoint.h) \
-    $(wildcard include/config/arm64/tagged/addr/abi.h) \
-    $(wildcard include/config/gcc/plugin/stackleak.h) \
-  include/linux/string.h \
-    $(wildcard include/config/binary/printf.h) \
-    $(wildcard include/config/fortify/source.h) \
-  include/uapi/linux/string.h \
-  arch/arm64/include/asm/string.h \
-    $(wildcard include/config/arch/has/uaccess/flushcache.h) \
-  arch/arm64/include/asm/hw_breakpoint.h \
-  arch/arm64/include/asm/virt.h \
-  arch/arm64/include/asm/sections.h \
-  include/asm-generic/sections.h \
-  arch/arm64/include/asm/pgtable-hwdef.h \
-    $(wildcard include/config/pgtable/levels.h) \
   arch/arm64/include/asm/pointer_auth.h \
   include/linux/random.h \
     $(wildcard include/config/arch/random.h) \
+  include/linux/list.h \
+    $(wildcard include/config/debug/list.h) \
+  include/linux/poison.h \
+    $(wildcard include/config/illegal/pointer/value.h) \
+    $(wildcard include/config/page/poisoning/zero.h) \
   include/linux/once.h \
   include/uapi/linux/random.h \
   include/uapi/linux/ioctl.h \
@@ -312,6 +249,32 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/need/per/cpu/embed/first/chunk.h) \
     $(wildcard include/config/need/per/cpu/page/first/chunk.h) \
     $(wildcard include/config/have/setup/per/cpu/area.h) \
+  include/linux/preempt.h \
+    $(wildcard include/config/preempt/count.h) \
+    $(wildcard include/config/debug/preempt.h) \
+    $(wildcard include/config/trace/preempt/toggle.h) \
+    $(wildcard include/config/preemption.h) \
+    $(wildcard include/config/preempt/notifiers.h) \
+  arch/arm64/include/asm/preempt.h \
+    $(wildcard include/config/preempt.h) \
+  include/linux/thread_info.h \
+    $(wildcard include/config/thread/info/in/task.h) \
+    $(wildcard include/config/have/arch/within/stack/frames.h) \
+    $(wildcard include/config/hardened/usercopy.h) \
+  include/linux/restart_block.h \
+  include/linux/time64.h \
+  include/linux/math64.h \
+    $(wildcard include/config/arch/supports/int128.h) \
+  include/uapi/linux/time.h \
+  include/uapi/linux/time_types.h \
+  include/linux/errno.h \
+  include/uapi/linux/errno.h \
+  arch/arm64/include/generated/uapi/asm/errno.h \
+  include/uapi/asm-generic/errno.h \
+  include/uapi/asm-generic/errno-base.h \
+  arch/arm64/include/asm/current.h \
+  arch/arm64/include/asm/thread_info.h \
+  arch/arm64/include/asm/stack_pointer.h \
   include/linux/smp.h \
     $(wildcard include/config/up/late/init.h) \
   include/linux/cpumask.h \
@@ -319,6 +282,7 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/hotplug/cpu.h) \
     $(wildcard include/config/debug/per/cpu/maps.h) \
   include/linux/threads.h \
+    $(wildcard include/config/nr/cpus.h) \
     $(wildcard include/config/base/small.h) \
   include/linux/bitmap.h \
   include/linux/llist.h \
@@ -332,6 +296,52 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/amd/mem/encrypt.h) \
   arch/arm64/include/asm/fpsimd.h \
   arch/arm64/include/uapi/asm/sigcontext.h \
+  include/uapi/linux/elf.h \
+  include/uapi/linux/elf-em.h \
+  include/linux/module.h \
+    $(wildcard include/config/sysfs.h) \
+    $(wildcard include/config/modules/tree/lookup.h) \
+    $(wildcard include/config/livepatch.h) \
+    $(wildcard include/config/module/sig.h) \
+    $(wildcard include/config/kallsyms.h) \
+    $(wildcard include/config/tracepoints.h) \
+    $(wildcard include/config/tree/srcu.h) \
+    $(wildcard include/config/bpf/events.h) \
+    $(wildcard include/config/event/tracing.h) \
+    $(wildcard include/config/constructors.h) \
+    $(wildcard include/config/function/error/injection.h) \
+  include/linux/stat.h \
+  arch/arm64/include/asm/stat.h \
+  arch/arm64/include/generated/uapi/asm/stat.h \
+  include/uapi/asm-generic/stat.h \
+  include/linux/time.h \
+    $(wildcard include/config/arch/uses/gettimeoffset.h) \
+  include/linux/seqlock.h \
+    $(wildcard include/config/debug/lock/alloc.h) \
+  include/linux/spinlock.h \
+    $(wildcard include/config/debug/spinlock.h) \
+  include/linux/irqflags.h \
+    $(wildcard include/config/trace/irqflags.h) \
+    $(wildcard include/config/irqsoff/tracer.h) \
+    $(wildcard include/config/preempt/tracer.h) \
+    $(wildcard include/config/trace/irqflags/support.h) \
+  arch/arm64/include/asm/irqflags.h \
+  include/linux/bottom_half.h \
+  arch/arm64/include/generated/asm/mmiowb.h \
+  include/asm-generic/mmiowb.h \
+    $(wildcard include/config/mmiowb.h) \
+  include/linux/spinlock_types.h \
+  arch/arm64/include/asm/spinlock_types.h \
+  include/asm-generic/qspinlock_types.h \
+    $(wildcard include/config/paravirt.h) \
+  include/asm-generic/qrwlock_types.h \
+  include/linux/lockdep.h \
+    $(wildcard include/config/lockdep.h) \
+    $(wildcard include/config/lock/stat.h) \
+  include/linux/rwlock_types.h \
+  arch/arm64/include/asm/spinlock.h \
+  arch/arm64/include/generated/asm/qrwlock.h \
+  include/asm-generic/qrwlock.h \
   arch/arm64/include/generated/asm/qspinlock.h \
   include/asm-generic/qspinlock.h \
   include/linux/rwlock.h \
@@ -651,13 +661,6 @@ deps_/mnt/dav/rootkit/hook_test.o := \
   include/linux/sysctl.h \
     $(wildcard include/config/sysctl.h) \
   include/uapi/linux/sysctl.h \
-  include/linux/elf.h \
-  arch/arm64/include/asm/elf.h \
-    $(wildcard include/config/compat/vdso.h) \
-  arch/arm64/include/generated/asm/user.h \
-  include/asm-generic/user.h \
-  include/uapi/linux/elf.h \
-  include/uapi/linux/elf-em.h \
   include/linux/kobject.h \
     $(wildcard include/config/uevent/helper.h) \
     $(wildcard include/config/debug/kobject/release.h) \
@@ -688,223 +691,9 @@ deps_/mnt/dav/rootkit/hook_test.o := \
     $(wildcard include/config/have/mod/arch/specific.h) \
     $(wildcard include/config/modules/use/elf/rel.h) \
     $(wildcard include/config/modules/use/elf/rela.h) \
-  /mnt/dav/rootkit/hook_v6.h \
-  include/linux/slab.h \
-    $(wildcard include/config/debug/slab.h) \
-    $(wildcard include/config/failslab.h) \
-    $(wildcard include/config/memcg/kmem.h) \
-    $(wildcard include/config/have/hardened/usercopy/allocator.h) \
-    $(wildcard include/config/slab.h) \
-    $(wildcard include/config/slub.h) \
-    $(wildcard include/config/slob.h) \
-  include/linux/overflow.h \
-  include/linux/percpu-refcount.h \
-  include/linux/kasan.h \
-    $(wildcard include/config/kasan/generic.h) \
-  include/linux/uaccess.h \
-  arch/arm64/include/asm/uaccess.h \
-    $(wildcard include/config/arm64/pan.h) \
-  arch/arm64/include/asm/kernel-pgtable.h \
-  arch/arm64/include/asm/pgtable.h \
-  arch/arm64/include/asm/proc-fns.h \
-  arch/arm64/include/asm/pgtable-prot.h \
-  arch/arm64/include/asm/tlbflush.h \
-    $(wildcard include/config/arm64/workaround/repeat/tlbi.h) \
-  arch/arm64/include/asm/fixmap.h \
-    $(wildcard include/config/acpi/apei/ghes.h) \
-    $(wildcard include/config/arm/sde/interface.h) \
-  arch/arm64/include/asm/boot.h \
-  include/asm-generic/fixmap.h \
-  include/asm-generic/pgtable.h \
-    $(wildcard include/config/have/arch/transparent/hugepage/pud.h) \
-    $(wildcard include/config/have/arch/soft/dirty.h) \
-    $(wildcard include/config/arch/enable/thp/migration.h) \
-    $(wildcard include/config/have/arch/huge/vmap.h) \
-    $(wildcard include/config/x86/espfix64.h) \
-  arch/arm64/include/asm/extable.h \
-  include/linux/kprobes.h \
-    $(wildcard include/config/kretprobes.h) \
-    $(wildcard include/config/kprobes/sanity/test.h) \
-    $(wildcard include/config/optprobes.h) \
-    $(wildcard include/config/kprobes/on/ftrace.h) \
-  include/linux/ftrace.h \
-    $(wildcard include/config/function/tracer.h) \
-    $(wildcard include/config/dynamic/ftrace/with/regs.h) \
-    $(wildcard include/config/stack/tracer.h) \
-    $(wildcard include/config/frame/pointer.h) \
-    $(wildcard include/config/function/profiler.h) \
-    $(wildcard include/config/ftrace/syscalls.h) \
-  include/linux/trace_clock.h \
-  arch/arm64/include/generated/asm/trace_clock.h \
-  include/asm-generic/trace_clock.h \
-  include/linux/kallsyms.h \
-    $(wildcard include/config/kallsyms/all.h) \
-  include/linux/mm.h \
-    $(wildcard include/config/have/arch/mmap/rnd/bits.h) \
-    $(wildcard include/config/have/arch/mmap/rnd/compat/bits.h) \
-    $(wildcard include/config/mem/soft/dirty.h) \
-    $(wildcard include/config/arch/uses/high/vma/flags.h) \
-    $(wildcard include/config/arch/has/pkeys.h) \
-    $(wildcard include/config/ppc.h) \
-    $(wildcard include/config/x86.h) \
-    $(wildcard include/config/parisc.h) \
-    $(wildcard include/config/sparc64.h) \
-    $(wildcard include/config/x86/intel/mpx.h) \
-    $(wildcard include/config/shmem.h) \
-    $(wildcard include/config/arch/has/pte/devmap.h) \
-    $(wildcard include/config/dev/pagemap/ops.h) \
-    $(wildcard include/config/device/private.h) \
-    $(wildcard include/config/pci/p2pdma.h) \
-    $(wildcard include/config/debug/vm/rb.h) \
-    $(wildcard include/config/page/poisoning.h) \
-    $(wildcard include/config/init/on/alloc/default/on.h) \
-    $(wildcard include/config/init/on/free/default/on.h) \
-    $(wildcard include/config/debug/pagealloc.h) \
-    $(wildcard include/config/arch/has/set/direct/map.h) \
-    $(wildcard include/config/hibernation.h) \
-    $(wildcard include/config/hugetlbfs.h) \
-  include/linux/range.h \
-  include/linux/bit_spinlock.h \
-  include/linux/shrinker.h \
-  include/linux/page_ext.h \
-  include/linux/stacktrace.h \
-    $(wildcard include/config/stacktrace.h) \
-    $(wildcard include/config/arch/stackwalk.h) \
-    $(wildcard include/config/have/reliable/stacktrace.h) \
-  include/linux/stackdepot.h \
-  include/linux/page_ref.h \
-    $(wildcard include/config/debug/page/ref.h) \
-  include/linux/memremap.h \
-  include/linux/ioport.h \
-    $(wildcard include/config/io/strict/devmem.h) \
-  include/linux/huge_mm.h \
-  include/linux/sched/coredump.h \
-    $(wildcard include/config/core/dump/default/elf/headers.h) \
-  include/linux/fs.h \
-    $(wildcard include/config/read/only/thp/for/fs.h) \
-    $(wildcard include/config/fs/posix/acl.h) \
-    $(wildcard include/config/cgroup/writeback.h) \
-    $(wildcard include/config/ima.h) \
-    $(wildcard include/config/file/locking.h) \
-    $(wildcard include/config/fsnotify.h) \
-    $(wildcard include/config/fs/encryption.h) \
-    $(wildcard include/config/fs/verity.h) \
-    $(wildcard include/config/epoll.h) \
-    $(wildcard include/config/quota.h) \
-    $(wildcard include/config/blk/dev/loop.h) \
-    $(wildcard include/config/fs/dax.h) \
-    $(wildcard include/config/mandatory/file/locking.h) \
-    $(wildcard include/config/migration.h) \
-    $(wildcard include/config/io/uring.h) \
-  include/linux/wait_bit.h \
-  include/linux/kdev_t.h \
-  include/uapi/linux/kdev_t.h \
-  include/linux/dcache.h \
-  include/linux/rculist_bl.h \
-  include/linux/list_bl.h \
-  include/linux/lockref.h \
-    $(wildcard include/config/arch/use/cmpxchg/lockref.h) \
-  include/linux/stringhash.h \
-    $(wildcard include/config/dcache/word/access.h) \
-  include/linux/hash.h \
-    $(wildcard include/config/have/arch/hash.h) \
-  include/linux/path.h \
-  include/linux/list_lru.h \
-  include/linux/capability.h \
-  include/uapi/linux/capability.h \
-  include/linux/semaphore.h \
-  include/linux/fcntl.h \
-    $(wildcard include/config/arch/32bit/off/t.h) \
-  include/uapi/linux/fcntl.h \
-  arch/arm64/include/uapi/asm/fcntl.h \
-  include/uapi/asm-generic/fcntl.h \
-  include/uapi/linux/fiemap.h \
-  include/linux/migrate_mode.h \
-  include/linux/percpu-rwsem.h \
-  include/linux/rcuwait.h \
-  include/linux/rcu_sync.h \
-  include/linux/delayed_call.h \
-  include/linux/uuid.h \
-  include/uapi/linux/uuid.h \
-  include/linux/errseq.h \
-  include/linux/ioprio.h \
-  include/linux/sched/rt.h \
-  include/linux/iocontext.h \
-  include/linux/fs_types.h \
-  include/uapi/linux/fs.h \
-  include/linux/quota.h \
-    $(wildcard include/config/quota/netlink/interface.h) \
-  include/linux/percpu_counter.h \
-  include/uapi/linux/dqblk_xfs.h \
-  include/linux/dqblk_v1.h \
-  include/linux/dqblk_v2.h \
-  include/linux/dqblk_qtree.h \
-  include/linux/projid.h \
-  include/uapi/linux/quota.h \
-  include/linux/nfs_fs_i.h \
-  include/linux/vmstat.h \
-    $(wildcard include/config/vm/event/counters.h) \
-    $(wildcard include/config/debug/tlbflush.h) \
-    $(wildcard include/config/debug/vm/vmacache.h) \
-  include/linux/vm_event_item.h \
-    $(wildcard include/config/memory/balloon.h) \
-    $(wildcard include/config/balloon/compaction.h) \
-  include/linux/ptrace.h \
-  include/linux/sched/signal.h \
-    $(wildcard include/config/sched/autogroup.h) \
-    $(wildcard include/config/bsd/process/acct.h) \
-    $(wildcard include/config/taskstats.h) \
-  include/linux/signal.h \
-    $(wildcard include/config/proc/fs.h) \
-  include/linux/sched/jobctl.h \
-  include/linux/sched/task.h \
-    $(wildcard include/config/have/copy/thread/tls.h) \
-    $(wildcard include/config/have/exit/thread.h) \
-    $(wildcard include/config/arch/wants/dynamic/task/struct.h) \
-    $(wildcard include/config/have/arch/thread/struct/whitelist.h) \
-  include/linux/cred.h \
-    $(wildcard include/config/debug/credentials.h) \
-  include/linux/key.h \
-    $(wildcard include/config/net.h) \
-  include/linux/assoc_array.h \
-    $(wildcard include/config/associative/array.h) \
-  include/linux/sched/user.h \
-    $(wildcard include/config/fanotify.h) \
-    $(wildcard include/config/posix/mqueue.h) \
-    $(wildcard include/config/bpf/syscall.h) \
-  include/linux/ratelimit.h \
-  include/linux/pid_namespace.h \
-    $(wildcard include/config/pid/ns.h) \
-  include/linux/nsproxy.h \
-  include/linux/ns_common.h \
-  include/uapi/linux/ptrace.h \
-  arch/arm64/include/asm/ftrace.h \
-  include/linux/compat.h \
-    $(wildcard include/config/arch/has/syscall/wrapper.h) \
-    $(wildcard include/config/x86/x32/abi.h) \
-    $(wildcard include/config/compat/old/sigaction.h) \
-    $(wildcard include/config/odd/rt/sigaction.h) \
-  include/linux/socket.h \
-  arch/arm64/include/generated/uapi/asm/socket.h \
-  include/uapi/asm-generic/socket.h \
-  arch/arm64/include/generated/uapi/asm/sockios.h \
-  include/uapi/asm-generic/sockios.h \
-  include/uapi/linux/sockios.h \
-  include/linux/uio.h \
-    $(wildcard include/config/arch/has/uaccess/mcsafe.h) \
-  include/crypto/hash.h \
-  include/linux/crypto.h \
-    $(wildcard include/config/crypto/stats.h) \
-  include/uapi/linux/uio.h \
-  include/uapi/linux/socket.h \
-  include/uapi/linux/if.h \
-  include/uapi/linux/libc-compat.h \
-  include/uapi/linux/hdlc/ioctl.h \
-  include/uapi/linux/aio_abi.h \
-  arch/arm64/include/asm/syscall_wrapper.h \
-  arch/arm64/include/asm/kprobes.h \
-  include/asm-generic/kprobes.h \
+  include/linux/vermagic.h \
+  include/generated/utsrelease.h \
 
-/mnt/dav/rootkit/hook_test.o: $(deps_/mnt/dav/rootkit/hook_test.o)
+/mnt/dav/ftrace_test/ftrace_test.mod.o: $(deps_/mnt/dav/ftrace_test/ftrace_test.mod.o)
 
-$(deps_/mnt/dav/rootkit/hook_test.o):
+$(deps_/mnt/dav/ftrace_test/ftrace_test.mod.o):

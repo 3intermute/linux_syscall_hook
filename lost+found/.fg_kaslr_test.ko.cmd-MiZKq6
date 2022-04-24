@@ -1,1 +1,0 @@
-cmd_/mnt/dav/fg-kaslr_test/fg_kaslr_test.ko := ld -r  -EL  -maarch64elf  --build-id  -T ./scripts/module-common.lds -T ./arch/arm64/kernel/module.lds -o /mnt/dav/fg-kaslr_test/fg_kaslr_test.ko /mnt/dav/fg-kaslr_test/fg_kaslr_test.o /mnt/dav/fg-kaslr_test/fg_kaslr_test.mod.o;  true

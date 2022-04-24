@@ -113,6 +113,8 @@ kernel strider
 
 /proc/iomem
 
+nEED NOTRACE
+
 
 
 

