@@ -115,7 +115,11 @@ kernel strider
 
 nEED NOTRACE
 
-
+// ftrace_set_filter(&hook->ops, hook->name, strlen(hook->name), 0);
+// if (err) {
+//     pr_info("debug: ftrace_set_filter failed with err (%i), &hook->ops (%pR), hook->name @%s\n", err, &hook->ops, hook->name);
+//     return err;
+// }
 
 
 IMPORTANT:

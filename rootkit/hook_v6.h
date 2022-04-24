@@ -31,6 +31,8 @@ uintptr_t kprobe_get_func_addr(const char *func_name) {
     return tmp;
 }
 
+
+
 static int fh_get_func_addr(struct ftrace_hook *hook) {
     if (!kallsyms_lookup_name_) {
         kallsyms_lookup_name_ = kprobe_get_func_addr("kallsyms_lookup_name");
@@ -69,15 +71,9 @@ int fh_install_hook(struct ftrace_hook *hook) {
                     | FTRACE_OPS_FL_RECURSION_SAFE
                     | FTRACE_OPS_FL_IPMODIFY;
 
-    // err = ftrace_set_filter_ip(&hook->ops, hook->addr, 0, 0);
-    // if (err) {
-    //     pr_info("debug: ftrace_set_filter_ip failed with err (%i), &hook->ops (%pR), hook->addr @%pK\n", err, &hook->ops, hook->addr);
-    //     return err;
-    // }
-
-    ftrace_set_filter(&hook->ops, hook->name, strlen(hook->name), 0);
+    err = ftrace_set_filter_ip(&hook->ops, hook->addr, 0, 0);
     if (err) {
-        pr_info("debug: ftrace_set_filter failed with err (%i), &hook->ops (%pR), hook->name @%s\n", err, &hook->ops, hook->name);
+        pr_info("debug: ftrace_set_filter_ip failed with err (%i), &hook->ops (%pR), hook->addr @%pK\n", err, &hook->ops, hook->addr);
         return err;
     }
 
