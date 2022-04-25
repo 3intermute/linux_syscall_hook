@@ -1,0 +1,4 @@
+https://stackoverflow.com/questions/18220980/playing-with-syscall-table-from-lkm
+
+// encrypt decryption keys for all functions
+// key schedule for all functions

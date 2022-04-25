@@ -36,6 +36,7 @@ void hook_syscall(struct direct_syscall_hook *hook) {
         resolve_syscall_table();
     }
     hook->orig = sys_call_table_addr[hook->number];
+    pr_info("DEBUG: hook->orig (%pK)\n", hook->orig);
     // pte_flip_write_protect(page_from_virt(&sys_call_table_addr[hook->number]));
     sys_call_table_addr[hook->number] = hook->new;
     pr_info("debug: hook_syscall of #%i, orig @ %pK, new @%pK, success\n", hook->number, hook->orig, hook->new);

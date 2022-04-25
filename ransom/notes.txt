@@ -1,3 +1,2 @@
 https://www.linuxfixes.com/2021/11/solved-arm64-linux-memory-write.html?m=0
-https://www.linuxfixes.com/2021/11/solved-arm64-linux-memory-write.html?m=0
 https://www.kernel.org/doc/gorman/html/understand/understand006.html

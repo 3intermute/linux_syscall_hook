@@ -14,9 +14,9 @@ MODULE_VERSION("1.0");
 static asmlinkage int (*orig_kill) (const struct pt_regs *);
 
 asmlinkage int new_kill(const struct pt_regs *regs) {
-    pr_info("debug: hooked kill :D\n");
-    return orig_kill(regs);
-    // return 0;
+    pr_info("debug: hooked kill :D, pid (%i), sig (%i)\n", regs->regs[0], regs->regs[1]);
+    // return orig_kill(regs);
+    return 0;
 }
 
 struct direct_syscall_hook hook = {__NR_kill, new_kill, &orig_kill};
