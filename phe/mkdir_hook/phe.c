@@ -19,9 +19,6 @@ asmlinkage int new_mkdirat(const struct pt_regs *regs) {
     strncpy_from_user(pathname, pathname_usr_ptr, NAME_MAX); // 256 bits
     pr_info("debug: mkdirat called :D, path (%s), fd (%i), mode (%lli)\n", pathname, (int) regs->regs[0], regs->regs[2]);
     if ((int) regs->regs[0] == -1) {
-        if () {
-            
-        }
         return 0xdeadbeef;
     }
     return orig_mkdirat(regs);
