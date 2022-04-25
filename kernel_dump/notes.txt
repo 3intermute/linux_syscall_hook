@@ -5,3 +5,5 @@ objdump -D -b binary -marm vmlinux
 
 
 ffff8000100a0d10 t el0_svc_common.constprop.0
+
+// typedef void (*el0_svc_common_t)(struct pt_regs *regs, int scno, int sc_nr, const syscall_fn_t syscall_table[]);

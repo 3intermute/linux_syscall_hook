@@ -1,6 +1,10 @@
 #include <stdio.h>
 
-int main() {
+void hello(void) {
     printf("hello from ARM\n");
+}
+
+int main() {
+    hello();
     return 0;
 }
