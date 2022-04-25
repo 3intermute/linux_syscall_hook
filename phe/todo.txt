@@ -1,0 +1,10 @@
+op-tee get calling addr ip
+
+map same virt to different phys
+hook exceptions, leave syscall table unmodified
+
+write a writeup eventually
+
+@ب-iamallama.amallamai-ب#0011 im trying to make my syscall hooking UD
+
+wyt of over-writing the exception handling code, checking the syscall no and then redirecting to two different tables, one un-overwritten and the other i have modifed, system.map will still show the original table and the original addresses

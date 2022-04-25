@@ -36,3 +36,27 @@ todo:
 - finish rk scanner hiding via PHE
 - process hiding from usermode
 - network connection hiding from usermode
+- redirect entire sys_call_table
+- use OP-TEE to hide functions
+
+
+
+
+new exception hooking process:
+copy (el0_svc_common entry, length x) -> hooked_el0_svc_common
+copy shellcode (jmp hooked_el0_svc_common, length x) -> el0_svc_common
+
+el0_svc_common entry
+0 ---------------
+jmp hooked_el0_svc_common
+x ---------------
+el0_svc_common body
+
+>>>>>>>>>>>
+
+hooked_el0_svc_common entry
+0 ---------------
+OVERWRITTEN el0_svc_common body
+x ---------------
+set sys_call_table to new addr
+jmp el0_svc_common entry + x

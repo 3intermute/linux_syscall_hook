@@ -1,0 +1,7 @@
+http://lists.infradead.org/pipermail/linux-arm-kernel/2016-January/402180.html
+remove readelf check on arm
+
+objdump -D -b binary -marm vmlinux
+
+
+ffff8000100a0d10 t el0_svc_common.constprop.0
