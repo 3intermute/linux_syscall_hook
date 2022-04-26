@@ -18,6 +18,8 @@ static int __init hook_test_mod_init(void) {
     pr_info("debug: orig_table %i -> %pK, new_table %i -> %pK\n", __NR_mkdirat,
             ((void **) hook.orig_table)[__NR_mkdirat], __NR_mkdirat,
             ((void **) hook.new_table)[__NR_mkdirat]);
+
+    hook_el0_svc_common(&hook);
     pr_info("debug: module loaded\n");
     return 0;
 }

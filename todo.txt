@@ -42,3 +42,7 @@ prefix: __arm64_
 
 kill pids that fuck with the kernel LOL !
 disable insmod and unload all other kernel modules
+
+hook pte_offset_map
+
+reorganize code to stop it all from being in headers my GOD
