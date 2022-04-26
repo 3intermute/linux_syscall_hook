@@ -7,6 +7,7 @@
 static struct mm_struct *init_mm_ptr = NULL;
 
 pte_t *page_from_virt(uintptr_t addr) {
+    pr_info("debug: page_from_virt called with addr %pK\n", addr);
     if (!init_mm_ptr) {
         init_mm_ptr = kallsyms_lookup_name_("init_mm");
     }
@@ -18,21 +19,25 @@ pte_t *page_from_virt(uintptr_t addr) {
 
     pgd = pgd_offset(init_mm_ptr, addr);
     if (pgd_none(*pgd) || pgd_bad(*pgd)) {
+        pr_info("debug: page_from_virt of addr %pK, pgd_offset failed", addr);
         return NULL;
     }
 
     pud = pud_offset(pgd, addr);
     if (pud_none(*pud) || pud_bad(*pud)) {
+        pr_info("debug: page_from_virt of addr %pK, pud_offset failed", addr);
         return NULL;
     }
 
     pmd = pmd_offset(pud, addr);
     if (pmd_none(*pmd) || pmd_bad(*pmd)) {
+        pr_info("debug: page_from_virt of addr %pK, pmd_offset failed", addr);
         return NULL;
     }
 
     ptep = pte_offset_kernel(pmd, addr);
     if (!ptep) {
+        pr_info("debug: page_from_virt of addr %pK, pte_offset_kernel failed", addr);
         return NULL;
     }
 
@@ -42,7 +47,7 @@ pte_t *page_from_virt(uintptr_t addr) {
 }
 
 void pte_flip_write_protect(pte_t *ptep) {
-    pr_info("debug: pte_flip_write_protect called ptep @ %pK", ptep);
+    // pr_info("debug: pte_flip_write_protect called ptep @ %pK", ptep);
 
     if (!pte_write(*ptep)) {
         *ptep = pte_mkwrite(pte_mkdirty(*ptep));
