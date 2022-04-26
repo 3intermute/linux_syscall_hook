@@ -4,7 +4,7 @@
 #include "resolve_kallsyms.h"
 #include "set_page_flags.h"
 
-struct ehh_hook{
+struct ehh_hook {
     int number;
 
     void *new_table;
@@ -22,7 +22,7 @@ static void el0_svc_common_hook(void);
 static void shellcode(void) {
     __asm ("B %[addr]"
     :
-    : [addr] "r" (el0_svc_common_hook)
+    : [addr] "m" (el0_svc_common_hook)
     : "memory");
 }
 static void shellcode_end(void) {
@@ -53,23 +53,25 @@ static void el0_svc_common_hook(void) {
           "nop\n\t"
           "nop\n\t"
           "nop\n\t");
+
     pr_info("debug: syscall hooked !\n");
     __asm ("MOV r3, %[addr]"
     :
-    : [addr] "r" (new_sys_call_table)
+    : [addr] "m" (new_sys_call_table)
     : "memory");
     __asm ("B %[addr]"
     :
-    : [addr] "r" ((void *)((uintptr_t) el0_svc_common_ + ((uintptr_t) shellcode_end - (uintptr_t) shellcode)))
+    : [addr] "m" ((void *)((uintptr_t) el0_svc_common_ + ((uintptr_t) shellcode_end - (uintptr_t) shellcode)))
     : "memory");
 }
 
 void hook_el0_svc_common(struct ehh_hook *hook) {
     el0_svc_common_ = kallsyms_lookup_name_("el0_svc_common.constprop.0");
-    new_sys_call_table = hook->new;
+    new_sys_call_table = hook->new_table;
 
-    uintptr_t shellcode_size = (uintptr_t) shellcode_end - (uintptr_t) shellcode);
+    uintptr_t shellcode_size = (uintptr_t) shellcode_end - (uintptr_t) shellcode;
     pte_flip_write_protect(page_from_virt(el0_svc_common_));
+    pte_flip_write_protect(page_from_virt(el0_svc_common_hook));
     memcpy(el0_svc_common_hook, el0_svc_common_, shellcode_size);
     memcpy(el0_svc_common_, shellcode, shellcode_size);
 }

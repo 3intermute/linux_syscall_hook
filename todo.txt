@@ -39,3 +39,6 @@ prefix: __arm64_
 //     return -ENOENT;
 // }
 // hook = {"sys_kill", hook_kill, &orig_kill, NULL, {NULL, NULL, NULL}};
+
+kill pids that fuck with the kernel LOL !
+disable insmod and unload all other kernel modules

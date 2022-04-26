@@ -5,3 +5,6 @@ system.map will still show the original table and the original addresses
 el0_svc_common
 
 el0_svc_common.constprop.0
+
+
+https://stackoverflow.com/questions/40270548/load-64-bit-address-of-a-symbol-to-a-register-on-aarch64

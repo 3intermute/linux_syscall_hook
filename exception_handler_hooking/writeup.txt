@@ -1,0 +1,36 @@
+fuck it bro
+
+
+hooking process:
+copy (el0_svc_common entry, length x) -> hooked_el0_svc_common
+copy shellcode (jmp hooked_el0_svc_common, length x) -> el0_svc_common
+
+el0_svc_common entry
+0 ---------------
+jmp hooked_el0_svc_common
+x ---------------
+el0_svc_common body
+
+>>>>>>>>>>>
+
+hooked_el0_svc_common entry
+0 ---------------
+OVERWRITTEN el0_svc_common body
+nop
+nop
+nop
+...
+x ---------------
+set sys_call_table to new addr
+jmp el0_svc_common entry + x
+
+
+https://stackoverflow.com/questions/40270548/load-64-bit-address-of-a-symbol-to-a-register-on-aarch64
+https://thinkingeek.com/2016/11/13/exploring-aarch64-assembler-chapter-5/
+https://eli.thegreenplace.net/2013/11/05/how-to-jit-an-introduction
+
+- static function pointer to el0_svc_common_hook
+- static function pointer to el0_svc_common_
+- static void **to sys_call_table new
+- load and then jmp via adrp + ldr method (https://stackoverflow.com/questions/40270548/load-64-bit-address-of-a-symbol-to-a-register-on-aarch64)
+store  (uintptr_t) shellcode_end - (uintptr_t) shellcode as constant
