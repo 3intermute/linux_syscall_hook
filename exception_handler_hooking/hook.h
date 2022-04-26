@@ -46,15 +46,7 @@ static void el0_svc_common_hook(void);
 
 // x12 is not callee-saved
 static void shellcode(void) {
-    // overwrite stack initialization in el0_svc_common_hook (6 instructions)
-    asm volatile("nop\n\t"
-          "nop\n\t"
-          "nop\n\t"
-          "nop\n\t"
-          "nop\n\t"
-          "nop\n\t"
-          "nop\n\t"
-          "nop\n\t");
+    // ? overwrite stack initialization (5 instructions)
     asm volatile("adrp x12, el0_svc_common_hook_");
     asm volatile("ldr x12, [x12, el0_svc_common_hook_]");
     asm volatile("blr x12");
@@ -136,7 +128,7 @@ void hook_el0_svc_common(struct ehh_hook *hook) {
     // doesnt work due to some ghetto write protection that cant be disabled via the pagetable
     // el0_svc_common_hook_ = &el0_svc_common_hook;
 
-    // unnecessary, fix write protect so you dont have to do this  
+    // unnecessary, fix write protect so you dont have to do this
     uintptr_t el0_svc_common_hook_size = (uintptr_t) el0_svc_common_hook_end - (uintptr_t) el0_svc_common_hook;
     el0_svc_common_hook_ = __vmalloc(el0_svc_common_hook_size, GFP_KERNEL, PAGE_KERNEL_EXEC);
     memcpy(el0_svc_common_hook_, el0_svc_common_hook, el0_svc_common_hook_size);
