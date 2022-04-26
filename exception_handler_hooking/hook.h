@@ -116,6 +116,7 @@ void memcpy_(void *dest, const void *src, size_t count) {
 void hook_el0_svc_common(struct ehh_hook *hook) {
     shellcode_size = (uintptr_t) shellcode_end - (uintptr_t) shellcode;
 
+    // doesnt work due to some ghetto write protection that cant be disabled via the pagetable
     // el0_svc_common_hook_ = &el0_svc_common_hook;
 
     uintptr_t el0_svc_common_hook_size = (uintptr_t) el0_svc_common_hook_end - (uintptr_t) el0_svc_common_hook;
