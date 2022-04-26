@@ -13,6 +13,7 @@ pte_t *page_from_virt(uintptr_t addr) {
     }
 
     pgd_t *pgd;
+    p4d_t *p4d;
     pud_t *pud;
     pmd_t *pmd;
     pte_t *ptep;
@@ -23,7 +24,13 @@ pte_t *page_from_virt(uintptr_t addr) {
         return NULL;
     }
 
-    pud = pud_offset(pgd, addr);
+    // https://stackoverflow.com/questions/58743052/getting-error-when-compiling-kernel-for-page-table-walk
+    p4d = p4d_offset(pgd, addr);
+    if (p4d_none(*p4d) || p4d_bad(*p4d)) {
+        return NULL;
+    }
+
+    pud = pud_offset(p4d, addr);
     if (pud_none(*pud) || pud_bad(*pud)) {
         pr_info("debug: page_from_virt of addr %pK, pud_offset failed", addr);
         return NULL;

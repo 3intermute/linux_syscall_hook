@@ -8,3 +8,4 @@ el0_svc_common.constprop.0
 
 
 https://stackoverflow.com/questions/40270548/load-64-bit-address-of-a-symbol-to-a-register-on-aarch64
+// https://stackoverflow.com/questions/5982125/how-to-get-a-struct-page-from-any-address-in-the-linux-kernel

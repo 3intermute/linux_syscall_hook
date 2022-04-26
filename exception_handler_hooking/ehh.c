@@ -4,7 +4,7 @@
 #include <asm/unistd.h>
 #include "resolve_kallsyms.h"
 #include "copy_sys_call_table.h"
-#include "hook.h"
+#include "hook_v2.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("0xwillow");

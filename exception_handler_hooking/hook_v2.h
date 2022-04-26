@@ -49,10 +49,17 @@ static void el0_svc_common_hook(void);
 // x12 is not callee-saved
 static volatile void shellcode(void) {
     // ? overwrite stack initialization (5 instructions)
+
     // adrp is pc relative, this could cause problems
     // https://stackoverflow.com/questions/55112772/lower16-upper16-for-aarch64-absolute-address-into-register
-    asm volatile("adrp x12, el0_svc_common_hook_");
-    asm volatile("ldr x12, [x12, el0_svc_common_hook_]");
+
+    // asm volatile("adrp x12, el0_svc_common_hook_");
+    // asm volatile("ldr x12, [x12, el0_svc_common_hook_]");
+
+    asm volatile("movz x12, #:abs_g2_nc:el0_svc_common_hook_"); //  #:abs_g2 causes overflow ??
+    asm volatile("movk x12, #:abs_g1_nc:el0_svc_common_hook_");
+    asm volatile("movk x12, #:abs_g0_nc:el0_svc_common_hook_");
+    asm volatile("ldr x12, [x12]");
     asm volatile("blr x12");
 
 }
@@ -116,12 +123,17 @@ static volatile void el0_svc_common_hook(void) {
           "nop\n\t"
           "nop\n\t");
 
-    pr_info("debug: syscall hooked please god if i see this message ill be so happy : DDDDD\n");
+    asm volatile("mov x12, #0");
+    // pr_info("debug: syscall hooked please god if i see this message ill be so happy : DDDDD\n");
 
     // asm volatile("adrp x3, new_sys_call_table");
     // asm volatile("ldr x3, [x3, new_sys_call_table]");
+
     asm volatile("adrp x12, el0_svc_common_");
-    asm volatile("ldr x12, [x12, el0_svc_common_]"); // add shellcode_size
+    asm volatile("ldr x12, [x12, el0_svc_common_]");
+    asm volatile("adrp x13, shellcode_size");
+    asm volatile("ldr x13, [x13, shellcode_size]"); // add shellcode_size
+    asm volatile("add x12, x12, x13");
     asm volatile("blr x12");
 }
 void el0_svc_common_hook_end(void) {
@@ -131,21 +143,18 @@ void hook_el0_svc_common(struct ehh_hook *hook) {
     new_sys_call_table = hook->new_table;
     shellcode_size = (uintptr_t) shellcode_end - (uintptr_t) shellcode;
 
-    // doesnt work due to some ghetto write protection that cant be disabled via the pagetable
     el0_svc_common_hook_ = el0_svc_common_hook;
-
     el0_svc_common_ = kallsyms_lookup_name_("el0_svc_common.constprop.0");
-    pr_info("debug: orig instructions %*ph\n", 64, el0_svc_common_);
+    pr_info("debug: orig el0_svc_common_ instructions %*ph\n", 64, el0_svc_common_);
+
     pte_flip_write_protect(page_from_virt(el0_svc_common_hook_));
     pte_flip_write_protect(page_from_virt(el0_svc_common_));
     flush_tlb_all();
-    // flush_cache_all();
 
-    // https://stackoverflow.com/questions/5982125/how-to-get-a-struct-page-from-any-address-in-the-linux-kernel
     memcpy(el0_svc_common_hook_, el0_svc_common_, shellcode_size);
-    pr_info("debug: copied instructions %*ph\n", 64, el0_svc_common_hook_);
+    pr_info("debug: copied el0_svc_common_ instructions %*ph\n", 64, el0_svc_common_hook_);
     memcpy(el0_svc_common_, shellcode, shellcode_size);
-    pr_info("debug: copied instructions %*ph\n", 64, el0_svc_common_);
+    pr_info("debug: copied shellcode instructions %*ph\n", 64, el0_svc_common_);
 }
 
 #endif
