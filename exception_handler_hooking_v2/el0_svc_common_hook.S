@@ -1,0 +1,56 @@
+.section .data
+.global new_sys_call_table_ptr
+.global el0_svc_common_ptr
+.global el0_svc_common_hook_ptr
+new_sys_call_table_ptr: .dword 0
+el0_svc_common_ptr: .dword 0
+el0_svc_common_hook_ptr: .dword 0
+
+.section .text
+.global shellcode
+shellcode:
+    movz x12, #:abs_g2:el0_svc_common_hook_ptr
+    movk x12, #:abs_g1_nc:el0_svc_common_hook_ptr
+    movk x12, #:abs_g0_nc:el0_svc_common_hook_ptr
+    ldr x12, [x12]
+    blr x12
+.global shellcode_size
+.equ shellcode_size, . - shellcode
+
+.global el0_svc_common_hook
+el0_svc_common_hook:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    mov x12, #0
+    adrp x12, el0_svc_common_ptr
+    ldr x12, [x12, el0_svc_common_ptr]
+    adrp x13, shellcode_size
+    ldr x13, [x13, shellcode_size]
+    add x12, x12, x13
+    blr x12
+
+new_sys_call_table_addr: .dword new_sys_call_table_ptr
+el0_svc_common_addr: .dword el0_svc_common_ptr
+el0_svc_common_hook_addr: .dword el0_svc_common_hook_ptr

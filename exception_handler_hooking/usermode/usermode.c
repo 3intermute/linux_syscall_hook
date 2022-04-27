@@ -13,7 +13,7 @@ void fun1(void) {
 }
 
 static volatile void shellcode(void) {
-    __asm("movz x12, #:abs_g2_nc:fun1_hook_ptr"); //  #:abs_g2 causes overflow ??
+    __asm("movz x12, #:abs_g2:fun1_hook_ptr"); //  #:abs_g2 causes overflow ??
     __asm("movk x12, #:abs_g1_nc:fun1_hook_ptr");
     __asm("movk x12, #:abs_g0_nc:fun1_hook_ptr");
     __asm("ldr x12, [x12]");

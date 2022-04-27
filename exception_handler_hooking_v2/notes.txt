@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/57376336/how-to-compile-kernel-module-together-with-file-s-gas-assembly
