@@ -1,0 +1,19 @@
+https://developer.arm.com/documentation/ddi0596/2021-12/Base-Instructions/MOV--bitmask-immediate---Move--bitmask-immediate---an-alias-of-ORR--immediate--?lang=en
+
+http://shell-storm.org/online/Online-Assembler-and-Disassembler/?inst=mov+w0%2C+0x5678%0D%0Amovk+w0%2C+0x1234%2C+lsl+16+&arch=arm64&as_format=inline#assembly
+
+
+11110010100000000000000000000000
+00000|0000000000000000|00|101001111
+
+f2800520
+movk 0, 0x29
+"\x20\x05\x80\xf2"
+
+111100101|0000|00000000101001|00000
+
+movk x29, 0x29
+"\x3d\x05\x80\xf2"
+f280053d
+
+111100101|0000|00000000101001|11101

@@ -1,1 +1,1 @@
-gcc -fPIC usermode.c -o usermode
+gcc -fPIC -fpie -pie asm.S usermode.c -o test -flinker-output=pie

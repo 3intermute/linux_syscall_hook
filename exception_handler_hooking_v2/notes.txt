@@ -11,8 +11,23 @@ el0_svc_common_addr: .dword el0_svc_common_ptr
 el0_svc_common_hook_addr: .dword el0_svc_common_hook_ptr
 
 
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1695093
 
+movz x12, #:abs_g3:el0_svc_common_hook_ptr
+movk x12, #:abs_g2_nc:el0_svc_common_hook_ptr
+movk x12, #:abs_g1_nc:el0_svc_common_hook_ptr
+movk x12, #:abs_g0_nc:el0_svc_common_hook_ptr
 
+    ldr x12, =el0_svc_common_hook_ptr_addr
+    bl skip_addr
+    el0_svc_common_hook_ptr_addr: .dword el0_svc_common_hook_ptr
+skip_addr:
+
+adrp x12, :pg_hi21:el0_svc_common_hook_ptr
+ldr  x12, [x12, #:lo12:el0_svc_common_hook_ptr]
+bl skip_addr
+el0_svc_common_hook_ptr_addr: .dword el0_svc_common_hook_ptr
+skip_addr:
 
 --------
 

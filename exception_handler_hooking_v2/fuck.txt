@@ -1,0 +1,4 @@
+well it looks like ur gonna have to call a usermode helper to assemble the shellcode
+damn you kaslr !
+
+1. load hook function
