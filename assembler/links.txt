@@ -14,6 +14,93 @@ movk 0, 0x29
 
 movk x29, 0x29
 "\x3d\x05\x80\xf2"
+
 f280053d
 
 111100101|0000|00000000101001|11101
+
+111100101|0000|00000000000000|11101
+
+
+//
+// uint32_t assemble_movk(uint32_t imm16, uint32_t hw, uint32_t rd) {
+//     return 0xf2800000 | (imm16 << 5) | (hw << 21) | rd;
+// }
+//
+// uint32_t assemble_movz(uint32_t imm16, uint32_t hw, uint32_t rd) {
+//     return 0xa5000000 | (imm16 << 5) | (hw << 21) | rd;
+// }
+//
+// // https://stackoverflow.com/questions/53268118/whats-the-difference-between-mov-movz-movn-and-movk-in-armv8-assembly
+// uint32_t assemble_movn() {
+//
+// }
+//
+// unsigned char *assemble_absolute_load(uint32_t rd, uintptr_t addr) {
+//     unsigned char *code = vmalloc(ASM_ABS_LOAD_SIZE); // 3 insts needed, insts 4 bytes
+//     // code[0] = assemble_movz(addr & 0xffffffff, 0b1, rd);
+//     // use movn or movz depending on size
+//     code[4] = assemble_movk(addr & 0xffff00000000, 0b10, rd);
+//     code[8] = assemble_movk(addr & 0xffff000000000000, 0b11, rd);
+//     return code;
+// }
+
+
+9df9b3d2
+
+movz x29, #0x9fcc, lsl #16
+
+0xffffd8589fcc0000
+
+10100101000000000000000000000000
+
+movk x0, #0x0000
+movk x0, #0x9fcc, lsl #16
+movk x0, #0xd858, lsl #32
+movk x0, #0xffff, lsl #48
+
+000080f2
+
+1D 00 80 F2
+
+0000a0fb
+111110111|01000000000000000000000
+
+9D F9 B3 F2
+111100101|011001111111001100|11101
+
+0000c0f2
+0000e0f2
+
+
+10111101101111110010
+
+// movz encoding:
+// 0 | 1 0 1 0 0 1 0 1 | 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0
+//------------------------------------------------------------------------
+// sf|opc              |hw   |imm16                            |rd
+
+uint32_t assemble_movz(uint32_t imm16, uint32_t hw, uint32_t rd) {
+    return 0xa5000000 | (imm16 << 5) | (hw << 21) | rd;
+}
+
+
+
+uint32_t assemble_movk(uint32_t imm16, uint32_t hw, uint32_t rd) {
+    return 0xf2800000 | (imm16 << 5) | (hw << 21) | rd;
+}
+
+uint32_t assemble_movz(uint32_t imm16, uint32_t hw, uint32_t rd) {
+    return 0xa5000000 | (imm16 << 5) | (hw << 21) | rd;
+}
+
+unsigned char *assemble_absolute_load(uint32_t rd, uintptr_t addr) {
+    unsigned char *code = vmalloc(12); // 3 insts needed, insts 4 bytes
+    code[0] = assemble_movz(addr & 0xffffffff, 0b1, rd);
+    code[4] = assemble_movk(addr & 0xffff00000000, 0b10, rd);
+    code[8] = assemble_movk(addr & 0xffff000000000000, 0b11, rd);
+    return code;
+}
+
+
+"\x80\xf9\xb3\xd2\x00\x0b\xdb\xf2\xe0\xff\xff\xf2"

@@ -27,7 +27,8 @@ a collection of tests and random bits that will eventually make up a rootkit
 /fg-kaslr_test - fg-kaslr bypass, this isnt actually anything important i was just using pr_info wrong
 /ftrace_hook_epic_fail - FTRACE_OPS_FL_SAVE_REGS is not supported on arm64 and i spent 2 days debugging this, however this will work on x86
 /phe - partial homomorphic encryption of LKM, unfinished
-/exception_handler hooking THIS IS THE COOLEST ONE, hooks exception handler and redirects to 2 different tables based on syscall #, original table unmodified
+/exception_handler hooking - THIS IS THE COOLEST ONE, hooks exception handler and redirects to 2 different tables based on syscall #, original table unmodified
+/assembler - assembles mov absolute address for shellcode generation on the fly without leaving kernelmode !
 
 todo:
 - dropper

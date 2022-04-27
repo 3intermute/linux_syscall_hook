@@ -1,18 +1,24 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <byteswap.h>
 
-// https://developer.arm.com/documentation/ddi0596/2021-12/Base-Instructions/MOVK--Move-wide-with-keep-?lang=en
-// movk encoding:
-// 0 | 1 1 1 0 0 1 0 1 | 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0
-//------------------------------------------------------------------------
-// sf|opc              |hw   |imm16                            |rd
+#define ABS_LOAD_INS_COUNT 4
 
 uint32_t assemble_movk(uint32_t imm16, uint32_t hw, uint32_t rd) {
     return 0xf2800000 | (imm16 << 5) | (hw << 21) | rd;
 }
 
+void assemble_absolute_load(uint32_t rd, uintptr_t addr, uint32_t *arr) {
+    arr[0] = __bswap_32(assemble_movk(addr & 0xffff, 0b0, rd));
+    arr[1] = __bswap_32(assemble_movk((addr & 0xffff0000) >> 16, 0b1, rd));
+    arr[2] = __bswap_32(assemble_movk((addr & 0xffff00000000) >> 32, 0b10, rd));
+    arr[3] = __bswap_32(assemble_movk((addr & 0xffff000000000000) >> 48, 0b11, rd));
+}
+
 int main(void) {
-    uint32_t inst = assemble_movk(0b101001, 0b0, 0b11101); // movk x29, 0x29
-    printf("%x\n", inst);
+    uint32_t arr[ABS_LOAD_INS_COUNT];
+    // printf("%x\n", assemble_movk(0xffffd8589fcc0000 & 0xffff, 0b1, 0b0));
+    // assemble_absolute_load(0b0, 0xffffd8589fcc0000, &arr);
     return 0;
 }
