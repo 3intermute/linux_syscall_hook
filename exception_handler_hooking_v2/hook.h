@@ -1,7 +1,7 @@
 #ifndef _HOOK_H_
 #define _HOOK_H_
 
-#define SHELLCODE_INS_COUNT 1
+#define SHELLCODE_INS_COUNT 6
 #define NOP_OFFSET 0x10 // 0x24 nop address
 
 #include <linux/vmalloc.h>

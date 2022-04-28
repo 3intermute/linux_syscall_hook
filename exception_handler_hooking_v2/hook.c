@@ -2,6 +2,7 @@
 #include "assembler.h"
 
 void el0_svc_common_hook(void) {
+    // deal with stack initialization
     asm volatile("nop\n\t"
           "nop\n\t"
           "nop\n\t"
@@ -18,6 +19,8 @@ void el0_svc_common_hook(void) {
           "nop\n\t"
           "nop\n\t");
 
+    pr_info("debug: el0_svc_common hooked\n");
+    
     asm volatile("mov x12, #0");
     asm volatile("ldr x12, =el0_svc_common_ptr");
     asm volatile("ldr x12, [x12]");
