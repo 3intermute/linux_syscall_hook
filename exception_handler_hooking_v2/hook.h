@@ -1,9 +1,11 @@
 #ifndef _HOOK_H_
 #define _HOOK_H_
 
-#define SHELLCODE_INS_COUNT 6
+#define SHELLCODE_INS_COUNT 1
+#define NOP_OFFSET 0x10 // 0x24 nop address
 
 #include <linux/vmalloc.h>
+#include <linux/stop_machine.h>
 #include "resolve_kallsyms.h"
 #include "set_page_flags.h"
 
@@ -21,8 +23,6 @@ struct ehh_hook {
     void *orig_fn;
 };
 
-extern void el0_svc_common_hook(void);
-extern uint32_t *generate_shellcode(uintptr_t el0_svc_common_hook_addr);
 extern void hook_el0_svc_common(struct ehh_hook *hook);
 
 #endif
